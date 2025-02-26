@@ -101,4 +101,11 @@ contract Escrow {
         require(success, "Failed to transfer funds");
         IERC721(nftAddress).transferFrom(address(this), buyer[_nftID], _nftID);
     }
+    function cancelSale(uint256 _nftID) public {
+        if (inspectionPassed[_nftID] == false) {
+            payable(buyer[_nftID]).transfer(address(this).balance);
+        } else {
+            payable(seller).transfer(address(this).balance);
+        }
+    }
 }
